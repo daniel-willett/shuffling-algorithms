@@ -7,14 +7,12 @@ import seaborn as sns
 import subprocess
 import time
 
-"""
 try:
     subprocess.run(["./generator"], check=True)
 except:
     subprocess.run(["go build generator.go"], shell=True, check=True)
     time.sleep(5)
     subprocess.run(["./generator"], shell=True, check=True)
-"""
 
 
 data = pd.read_csv("results.csv", header=None)
@@ -29,13 +27,17 @@ for pos in range(52):
 
 probabilityMatrix = matrix/len(data)
 
-plt.figure(figsize=(16,12))
+plt.figure(figsize=(20,20))
+
+upperLimit = np.max(probabilityMatrix)
+lowerLimit = np.min(probabilityMatrix)
+
 sns.heatmap(
         probabilityMatrix,
         cmap="RdYlGn",
         center=1/52,
-        vmin=0.015,
-        vmax=0.024,
+        vmin=lowerLimit,
+        vmax=upperLimit,
         )
 
 plt.title("Card Positional Probability After Shuffling")
