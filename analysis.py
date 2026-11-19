@@ -7,13 +7,14 @@ import seaborn as sns
 import subprocess
 import time
 
+"""
 try:
     subprocess.run(["./generator"], check=True)
 except:
     subprocess.run(["go build generator.go"], shell=True, check=True)
     time.sleep(5)
     subprocess.run(["./generator"], shell=True, check=True)
-
+"""
 
 data = pd.read_csv("results.csv", header=None)
 
@@ -31,6 +32,12 @@ plt.figure(figsize=(20,20))
 
 upperLimit = np.max(probabilityMatrix)
 lowerLimit = np.min(probabilityMatrix)
+
+if upperLimit-lowerLimit<0.002: 
+    #If we're within 0.002 margin of error, we want to take a 0.001 radius around 1/52
+    upperLimit = 0.02023076923076923076
+    lowerLimit = 0.01823076923076923076
+
 
 sns.heatmap(
         probabilityMatrix,
